@@ -1,0 +1,31 @@
+#list operations
+l = ['A','B','C','D','E']
+print("Original List: ", l)
+l.append('F')
+print("List after adding F: ", l)
+l.remove('D')
+print("List after removing D: ", l)
+l[1]='R'
+print("List after modifying B to R: ", l)
+
+#dictionary operations
+d = {'name' : 'aashi', 'city' : 'delhi', 'gender' : 'female'}
+print("Original Dictionary: ", d)
+d['course'] = 'BCA'
+print("Dictionary after adding course: ", d)
+del d['gender']
+print("Dictionary after removing gender: ", d)
+d['city'] = 'mumbai'
+print("Dictionary after modifying city: ", d)
+
+#set operations
+s = (1,2,3,4,5,6)
+print("Original Set: ", s)
+s.add(7)
+print("Set after adding 7: ", s)
+s.remove(5)
+print("Set after removing 5: ", s)
+s.discard(7)
+s.add(8)
+print("Set: ", s)
+
