@@ -19,7 +19,7 @@ d['city'] = 'mumbai'
 print("Dictionary after modifying city: ", d)
 
 #set operations
-s = (1,2,3,4,5,6)
+s = {1,2,3,4,5,6}
 print("Original Set: ", s)
 s.add(7)
 print("Set after adding 7: ", s)
