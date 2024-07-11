@@ -1,0 +1,86 @@
+import tkinter as tk
+from tkinter import ttk
+
+class Calculator:
+    def __init__(self, master):
+        self.master = master
+        master.title("Calculator")
+        master.configure(bg="black")
+        master.resizable(False, False)
+
+        self.display = tk.Entry(master, width=40, borderwidth=5, relief="sunken", justify="right", state="readonly"
+                                )
+        self.display.grid(row=0, column=0, columnspan=4, padx=5, pady=5, sticky="ew")
+
+        buttons = [
+            "7", "8", "9", "AC",
+            "4", "5", "6", "÷",
+            "1", "2", "3", "X",
+            "0", ".", "=",
+        ]
+        row = 1
+        col = 0
+        for button in buttons:
+            command = lambda x=button: self.button_click(x)
+            if button == '=':
+                button_widget = tk.Button(master, text=button, width=5, height=2, command=self.calculate)
+            else:
+                button_widget = tk.Button(master, text=button, width=5, height=2, command=command)
+            button_widget.grid(row=row, column=col, padx=5, pady=5, sticky="ew")
+            col += 1
+            if col > 3:
+                col = 0
+                row += 1
+
+        self.current_value = ""
+        self.operator = None
+        self.previous_value = None
+
+    def button_click(self, button):
+        if button in "0123456789.":
+            self.current_value += button
+            self.display.config(state="normal")
+            self.display.delete(0, tk.END)
+            self.display.insert(0, self.current_value)
+            self.display.config(state="readonly")
+        elif button == "AC":
+            self.current_value = ""
+            self.operator = None
+            self.previous_value = None
+            self.display.delete(0, tk.END)
+        elif button in "+-X÷":
+            if self.current_value:
+                self.operator = button
+                self.previous_value = self.current_value
+                self.current_value = ""
+
+    def calculate(self):
+        try:
+            if self.operator and self.current_value:
+                result = self.evaluate_expression()
+                self.display.config(state="normal")
+                self.display.delete(0, tk.END)
+                self.display.insert(0, result)
+                self.display.config(state="readonly")
+                self.current_value = str(result)
+                self.operator = None
+                self.previous_value = None
+        except ZeroDivisionError:
+            self.display.config(state="normal")
+            self.display.delete(0, tk.END)
+            self.display.insert(0, "Error")
+            self.display.config(state="readonly")
+
+    def evaluate_expression(self):
+        if self.operator == "+":
+            return float(self.previous_value) + float(self.current_value)
+        elif self.operator == "-":
+            return float(self.previous_value) - float(self.current_value)
+        elif self.operator == "X":
+            return float(self.previous_value) * float(self.current_value)
+        elif self.operator == "÷":
+            return float(self.previous_value) / float(self.current_value)
+
+root = tk.Tk()
+calculator = Calculator(root)
+root.mainloop()
